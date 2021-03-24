@@ -1,0 +1,93 @@
+<% layout('layouts/boilerplates')%>
+
+    <div class="row">
+        <div class="col-6 offset -3">
+        <h1> Edit campground</h1>
+       <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" novalidate class="validate-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="title"> Title</label>
+                <input class="form-control" type="text" name="campground[title]" id="title" value="<%=campground.title
+                %>" required >
+                <div class ="valid-feedback">
+                    looks good!
+                    </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control"  type="text" name="campground[location]" id="location" value="<%=campground.location
+                %>" required>
+                <div class ="valid-feedback">
+                    looks good!
+                    </div>
+             </div>
+             <div class="mb-3">
+                <label class="form-label" for="Price">Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input type="text" id="price" class="form-control" name="campground[price]" placeholder="0" aria-label="price" aria-describedby="price-label" value="<%=campground.price
+                    %>" required>
+                    <div class ="valid-feedback">
+                        looks good!
+                        </div>
+                </div>
+            </div>
+              
+             <div class="mb-3">
+                <label class="form-label" for="image">Image URL</label>
+                <input type="file" name="Image" id="image"/>
+                <!-- <input class="form-control"  type="text" name="campground[image]" id="image" value="<%=campground.image
+                %>" required> -->
+                <div class ="valid-feedback">
+                    looks good!
+                    </div>
+             </div>
+    
+             <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control"  type="text" name="campground[description]" id="description" value="<%=campground.description
+        %>" required> </textarea>
+                 <div class ="valid-feedback">
+                    looks good!
+                    </div>
+             </div>
+
+             <div class="mb-3">
+          
+                <div class="form-file custom-file">
+                    <div>
+                        <label for="">Edit images</label>
+                     </div>
+                        <input name="image" class="form-file-input" type="file" id="image" multiple >
+                        <label for="formFile" class="form-file-label custom-file-label">
+                         <!-- <span class="form-file-text custom-file-label">Choose your image</span> 
+                        <span class="form-file-text">Browse</span>  -->
+                        </label>
+                    </div>
+                    
+                  </div>
+            <div class="mb-3">
+                <% campground.images.forEach(function (img, 1) { %>
+                    <img src="<%= img.url%>" ]class="img-thumbnail" alt="">
+                        <div class="form-check-inline">
+                            <input type="checkbox" id="image-<%=1%>" name="deleteImages[]" value="">
+                        </div>
+                        <label for="">Delete</label>
+                <% })  %>
+            </div>
+
+
+    
+    
+    
+            <div class="mb-2">
+                <button class="btn btn-primary"> Edit campground</button>
+                
+           <!-- <button type="button" class="btn btn-dark"> Add campground</button> -->
+            </div>
+            </form>
+    
+            <a href="/campgrounds<%=campground._id%>">Back to Campground</a>
+    
+        </div>
+    </div>
+    
