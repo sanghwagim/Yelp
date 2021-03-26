@@ -15,6 +15,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const Campground = require('./models/campground');
 const Joi= require('joi');
+const logger = require('morgan');
 
 const ExpressError = require('./ultils/ExpressError');
 const methodOverride = require('method-override');
@@ -44,6 +45,7 @@ app.use(express.urlencoded({extended : true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(logger('dev'));
 app.use(session({ secret : 'anything', resave : false,  saveUninitialized : true}));
 app.use(passport.initialize());
 app.use(passport.session());
