@@ -1,5 +1,10 @@
 
 const Campground = require('../models/campground');
+const mbxEncoding= require('@mapbox/mapbox-sdk/services/geocoding');
+const mapboxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxEncoding({ accessToken : mapboxToken});
+// const mbxToken= mbxStyles({ accessToken: MY_ACCESS_TOKEN });
+const {cloudinary} = require('../cloudinary');
 
 
 module.exports.index = async (req,res, next ) => {
@@ -14,16 +19,26 @@ module.exports.index = async (req,res, next ) => {
     };
 
     module.exports.createCampground = async (req,res, next) => {
+       const geoData=  await geocoder.forwardGeocode({
+            query : req.body.campground.location,
+            limit : 1
+        }).send()
+
+        res.send(geoData.body.features[0].geometry.coordinates);
+        
+        // .then(response => {
+        //     const match = response.body;
+        //   });
 
    
-        const campground = new Campground(req.body.campground);
-        campground.images = req.files.map( f => ({ url: f.path, filename : f.filename}));
-        campground.author = req.user._id;
-        await campground.save();
-        console.log(campground);
-        req.flash('success', 'you made it') 
+        // const campground = new Campground(req.body.campground);
+        // campground.images = req.files.map( f => ({ url: f.path, filename : f.filename}));
+        // campground.author = req.user._id;
+        // await campground.save();
+        // console.log(campground);
+        // req.flash('success', 'you made it') 
        
-        res.redirect(`/campgrounds/${campground._id}`);
+        // res.redirect(`/campgrounds/${campground._id}`);
     
     };
 
@@ -60,11 +75,19 @@ module.exports.index = async (req,res, next ) => {
     module.exports.newCampground = async (req,res, next)=> { 
     
         const {id } =req.params;
+        console.log(req.body);
         const campground =  await Campground.findByIdAndUpdate(id,{ ...req.body.campground } ,{new : true})
         const imgs = campground.images.req.files.map(f => ({ url: f.path, filename : f.filename}));
         campground.images.push(...imgs);
         await campground.save();
-    
+        if(req.body.deleteImages) { 
+            for(let filename of req.body.deleteImages ) { 
+               await cloudinary.uploader.destroy(filename);
+            }
+           await campground.updateOne({spull : {images : {filename: {$in : req.body.deleteImages} }}});
+           console.log(campground);
+        }
+        
         req.flash('success', 'You have successfully done');
         res.redirect(`/campgrounds/${campground._id}`);
     }; 

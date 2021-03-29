@@ -23,6 +23,7 @@ const Review = require('./models/review');
 const session =require('express-session');
 const flash =require('connect-flash');
 const User = require('./models/user');
+const logger = require('morgan');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -43,6 +44,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended : true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(logger('dev'));
 
 app.use(session({ secret : 'anything', resave : false,  saveUninitialized : true}));
 app.use(passport.initialize());

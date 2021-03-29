@@ -59,6 +59,9 @@
                      </div>
                         <input name="image" class="form-file-input" type="file" id="image" multiple >
                         <label for="formFile" class="form-file-label custom-file-label">
+                            <div class="form-check-inline">
+                                <input type="checkbox">
+                            </div>
                          <!-- <span class="form-file-text custom-file-label">Choose your image</span> 
                         <span class="form-file-text">Browse</span>  -->
                         </label>
@@ -67,9 +70,9 @@
                   </div>
             <div class="mb-3">
                 <% campground.images.forEach(function (img, 1) { %>
-                    <img src="<%= img.url%>" ]class="img-thumbnail" alt="">
+                    <img src="<%= img.thumbnail%>" class="img-thumbnail" alt="">
                         <div class="form-check-inline">
-                            <input type="checkbox" id="image-<%=1%>" name="deleteImages[]" value="">
+                            <input type="checkbox" id="image-<%=1%>" name="deleteImages[]" value="img.filename">
                         </div>
                         <label for="">Delete</label>
                 <% })  %>

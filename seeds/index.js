@@ -30,11 +30,19 @@ const seedDB = async() => {
             author : '6041cb19c250d58639f5a4cb',
             location : `${cities[random1000].latitude}, ${cities[random1000].longitude}, ${cities[random1000].city}, ${cities[random1000].state}`,
             title : `${sample(descriptors)} ${sample(places)}`,
-            image : "https://source.unsplash.com/collection/190727/",
-            description : "Source is built for use in small, low-traffic applications. For production uses, we recommend the official Unsplash API which has more robust features and supports high-traffic use cases.",
-            price
             
-        })
+            description : "Source is built for use in small, low-traffic applications. For production uses, we recommend the official Unsplash API which has more robust features and supports high-traffic use cases.",
+            price, 
+            images : [{
+                
+                
+                url: 'https://res.cloudinary.com/daf0wtfle/image/upload/v1616651161/YelpCamp/ihkeqkna9ii1epxlszis.jpg',
+                filename: 'YelpCamp/ihkeqkna9ii1epxlszis'
+          
+                
+            
+        }]
+    });
 
         console.log(camp);
         await camp.save();
